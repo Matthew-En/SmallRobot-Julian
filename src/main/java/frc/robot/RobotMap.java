@@ -4,16 +4,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotMap {
 
-  // 0 is non-blocking (i.e. it doesn't wait for a response before going to the next statement)
-  public static final int TALON_TIMEOUT = 0; 
+  // 0 is non-blocking (i.e. it doesn't wait for a response before going to the
+  // next statement)
+  public static final int TALON_TIMEOUT = 0;
 
   public static final int PID_SLOT_DRIVE = 0;
   public static final int PID_SLOT_TURN = 1;
-  
-  /* The lowest value is 196.0, the maximum value is 3741.0. The middle is 1968.5
-   * New max: 2980, new min:956.5
-   * 16.9 ticks = 1 inch
-   * 1 rotation=253 ticks
+
+  /*
+   * The lowest value is 196.0, the maximum value is 3741.0. The middle is 1968.5
+   * New max: 2980, new min:956.5 16.9 ticks = 1 inch 1 rotation=253 ticks
    */
 
   // Steering motor ids
@@ -26,7 +26,7 @@ public class RobotMap {
   public static int RIGHT_LEAD_CHANNEL;
   public static int RIGHT_FOLLOWER_1_CHANNEL;
   public static int RIGHT_FOLLOWER_2_CHANNEL;
-  
+
   public static int FORWARD_PANIC_ANGLE;
   public static int BACKWARD_PANIC_ANGLE;
 
@@ -62,226 +62,313 @@ public class RobotMap {
   public static double LEFT_DRIVE_PID_F;
 
   public enum RobotId {
-    Board, Competition_1, Competition_2
+    Board, Competition_1, Competition_2, SmallRobot
   }
 
-  // Initialize robot map. 
+  // Initialize robot map.
   public static void init(RobotId id) {
     robotId = id;
     switch (id) {
-      
-      case Competition_1:
-        HAS_WHEELS = true;
-        DRIVEMOTOR_NUM = 4;
-        WHEEL_CIRCUMFERENCE = 18.50;
-        WHEEL_ENCODER_CODES_PER_REVOLUTION = 1024;
-        useSpeedControllers = true;
 
-        FORWARD_PANIC_ANGLE = 60;
-        BACKWARD_PANIC_ANGLE = -60;
+    case SmallRobot:
+      HAS_WHEELS = true;
+      DRIVEMOTOR_NUM = 2;
+      WHEEL_CIRCUMFERENCE = 18.50;
+      WHEEL_ENCODER_CODES_PER_REVOLUTION = 1024;
+      useSpeedControllers = true;
 
-        LEFT_LEAD_CHANNEL = 1;
-        LEFT_FOLLOWER_1_CHANNEL = 2;
-        LEFT_FOLLOWER_2_CHANNEL = 3;
-        LEFT_DRIVE_SENSOR_IS_INVERTED = true;
-        LEFT_DRIVE_MOTOR_IS_INVERTED = false;
+      // FORWARD_PANIC_ANGLE = 60;
+      // BACKWARD_PANIC_ANGLE = -60;
 
-        RIGHT_LEAD_CHANNEL = 4;
-        RIGHT_FOLLOWER_1_CHANNEL = 5;
-        RIGHT_FOLLOWER_2_CHANNEL = 6;
-        RIGHT_DRIVE_SENSOR_IS_INVERTED = true;
-        RIGHT_DRIVE_MOTOR_IS_INVERTED = true;
-        
-        RIGHT_GRABBER_SOLENOID_EXISTS = true;
-        LEFT_GRABBER_SOLENOID_EXISTS = true;
-        
-        CLIMB_MOTOR_CONTROLLER_LEADER = 11;
-        CLIMB_MOTOR_CONTROLLER_FOLLOWER1 = 12;
+      LEFT_LEAD_CHANNEL = 1;
+      LEFT_DRIVE_SENSOR_IS_INVERTED = true;
+      LEFT_DRIVE_MOTOR_IS_INVERTED = false;
 
-        //Linear PIDS
-        LEFT_DRIVE_PID_P = 2.025;
-        LEFT_DRIVE_PID_I = 0.0;
-        LEFT_DRIVE_PID_D = 400.0;
-        LEFT_DRIVE_PID_F = 0.0;
+      RIGHT_LEAD_CHANNEL = 6;
+      RIGHT_DRIVE_SENSOR_IS_INVERTED = true;
+      RIGHT_DRIVE_MOTOR_IS_INVERTED = true;
 
-        RIGHT_DRIVE_PID_P = 2.025;
-        RIGHT_DRIVE_PID_I = 0.0;
-        RIGHT_DRIVE_PID_D = 512.0;
-        RIGHT_DRIVE_PID_F = 0.0;
+      // RIGHT_GRABBER_SOLENOID_EXISTS = true;
+      // LEFT_GRABBER_SOLENOID_EXISTS = true;
 
-        // Turn PIDs
-        LEFT_TURN_PID_P = 1.75;
-        LEFT_TURN_PID_I = 0.0;
-        LEFT_TURN_PID_D = 180.0;
-        LEFT_TURN_PID_F = 0.0;
+      // CLIMB_MOTOR_CONTROLLER_LEADER = 11;
+      // CLIMB_MOTOR_CONTROLLER_FOLLOWER1 = 12;
 
-        RIGHT_TURN_PID_P = 1.75;
-        RIGHT_TURN_PID_I = 0.0;
-        RIGHT_TURN_PID_D = 180.0;
-        RIGHT_TURN_PID_F = 0.0;
+      // Linear PIDS
+      LEFT_DRIVE_PID_P = 2.025;
+      LEFT_DRIVE_PID_I = 0.0;
+      LEFT_DRIVE_PID_D = 400.0;
+      LEFT_DRIVE_PID_F = 0.0;
 
-        HAS_CLIMBER = true;
-        CLIMB_MOTOR_CONTROLLER_LEADER = 11;
-        CLIMB_MOTOR_CONTROLLER_FOLLOWER1 = 12;
+      RIGHT_DRIVE_PID_P = 2.025;
+      RIGHT_DRIVE_PID_I = 0.0;
+      RIGHT_DRIVE_PID_D = 512.0;
+      RIGHT_DRIVE_PID_F = 0.0;
 
-        useSimulator = false;
-        USE_FAKE_GAME_DATA = true;
+      // Turn PIDs
+      LEFT_TURN_PID_P = 1.75;
+      LEFT_TURN_PID_I = 0.0;
+      LEFT_TURN_PID_D = 180.0;
+      LEFT_TURN_PID_F = 0.0;
 
-        HAS_GRABBER = true;
-        GRABBER_INVERT = false;
-        HAS_CAMERA = false;
+      RIGHT_TURN_PID_P = 1.75;
+      RIGHT_TURN_PID_I = 0.0;
+      RIGHT_TURN_PID_D = 180.0;
+      RIGHT_TURN_PID_F = 0.0;
 
-        GRABBER_L_CHANNEL = 0;
-        GRABBER_R_CHANNEL = 1;
-        OPTICAL_CHANNEL = 5;
+      HAS_CLIMBER = false;
+      CLIMB_MOTOR_CONTROLLER_LEADER = 11;
+      CLIMB_MOTOR_CONTROLLER_FOLLOWER1 = 12;
 
-        // TODO Assign values to the game piece variables, and make more as appropriate
-        HAS_ELEVATOR = true;
-        ELEVATOR_MOTOR_CHANNEL = 7;
+      useSimulator = false;
+      USE_FAKE_GAME_DATA = true;
 
-        ELEVATOR_BOTTOM_TICKS = 881;
-        ELEVATOR_TOP_TICKS = 557;
+      HAS_GRABBER = false;
+      GRABBER_INVERT = false;
+      HAS_CAMERA = true;
 
-        ELEVATOR_FLOOR = 0.042;
-        ELEVATOR_SWITCH = 0.315;
-        ELEVATOR_LOW_SCALE = 0.729;
+      // GRABBER_L_CHANNEL = 0;
+      // GRABBER_R_CHANNEL = 1;
+      OPTICAL_CHANNEL = 5;
 
-        HAS_LEFT_RAMP = false;
-        RAMP_LEFT_FORWARD_CHANNEL = 1;
-        RAMP_LEFT_REVERSE_CHANNEL = 4;
+      // TODO Assign values to the game piece variables, and make more as appropriate
+      // HAS_ELEVATOR = false;
+      // ELEVATOR_MOTOR_CHANNEL = 7;
 
-        HAS_RIGHT_RAMP = false;
-        RAMP_RIGHT_FORWARD_CHANNEL = 2;
-        RAMP_RIGHT_REVERSE_CHANNEL = 5;
+      // ELEVATOR_BOTTOM_TICKS = 881;
+      // ELEVATOR_TOP_TICKS = 557;
 
-        RAMP_RELEASE_FORWARD_CHANNEL = 0;
-        RAMP_RELEASE_REVERSE_CHANNEL = 3;
+      // ELEVATOR_FLOOR = 0.042;
+      // ELEVATOR_SWITCH = 0.315;
+      // ELEVATOR_LOW_SCALE = 0.729;
 
-        AUTONOMOUS_DRIVE_TIMEOUT_MS = 500;
-        AUTONOMOUS_TURN_TIMEOUT_MS = 1000;
+      // HAS_LEFT_RAMP = false;
+      // RAMP_LEFT_FORWARD_CHANNEL = 1;
+      // RAMP_LEFT_REVERSE_CHANNEL = 4;
 
-        CLIMBER_RAMP_TIME = 0.5;
-        break;
+      // HAS_RIGHT_RAMP = false;
+      // RAMP_RIGHT_FORWARD_CHANNEL = 2;
+      // RAMP_RIGHT_REVERSE_CHANNEL = 5;
 
-      case Competition_2:
-        HAS_WHEELS = true;
-        DRIVEMOTOR_NUM = 4;
-        WHEEL_CIRCUMFERENCE = 18.00; //19.74;
-        WHEEL_ENCODER_CODES_PER_REVOLUTION = 1024;
-        useSpeedControllers = true;
+      // RAMP_RELEASE_FORWARD_CHANNEL = 0;
+      // RAMP_RELEASE_REVERSE_CHANNEL = 3;
 
-        FORWARD_PANIC_ANGLE = 60;
-        BACKWARD_PANIC_ANGLE = -60;
+      // AUTONOMOUS_DRIVE_TIMEOUT_MS = 500;
+      // AUTONOMOUS_TURN_TIMEOUT_MS = 1000;
 
-        LEFT_LEAD_CHANNEL = 1;
-        LEFT_FOLLOWER_1_CHANNEL = 2;
-        LEFT_FOLLOWER_2_CHANNEL = 3;
-        LEFT_DRIVE_SENSOR_IS_INVERTED = true;
-        LEFT_DRIVE_MOTOR_IS_INVERTED = false;
+      // CLIMBER_RAMP_TIME = 0.5;
+      break;
 
-        RIGHT_LEAD_CHANNEL = 4;
-        RIGHT_FOLLOWER_1_CHANNEL = 5;
-        RIGHT_FOLLOWER_2_CHANNEL = 6;
-        RIGHT_DRIVE_SENSOR_IS_INVERTED = true;
-        RIGHT_DRIVE_MOTOR_IS_INVERTED = true;
-        
-        HAS_CLIMBER = false;
-        CLIMB_MOTOR_CONTROLLER_LEADER = 11;
-        CLIMB_MOTOR_CONTROLLER_FOLLOWER1 = 12;
-        CLIMBER_RAMP_TIME = 0.5;
-        
-        RIGHT_GRABBER_SOLENOID_EXISTS = true;
-        LEFT_GRABBER_SOLENOID_EXISTS = true;
+    case Competition_1:
+      HAS_WHEELS = true;
+      DRIVEMOTOR_NUM = 4;
+      WHEEL_CIRCUMFERENCE = 18.50;
+      WHEEL_ENCODER_CODES_PER_REVOLUTION = 1024;
+      useSpeedControllers = true;
 
-        // Linear PIDS
-        LEFT_DRIVE_PID_P = 1.0;
-        LEFT_DRIVE_PID_I = 0.0;
-        LEFT_DRIVE_PID_D = 450.0;
-        LEFT_DRIVE_PID_F = 0.0;
+      FORWARD_PANIC_ANGLE = 60;
+      BACKWARD_PANIC_ANGLE = -60;
 
-        RIGHT_DRIVE_PID_P = 1.0;
-        RIGHT_DRIVE_PID_I = 0.0;
-        RIGHT_DRIVE_PID_D = 450.0;
-        RIGHT_DRIVE_PID_F = 0.0;
+      LEFT_LEAD_CHANNEL = 1;
+      LEFT_FOLLOWER_1_CHANNEL = 2;
+      LEFT_FOLLOWER_2_CHANNEL = 3;
+      LEFT_DRIVE_SENSOR_IS_INVERTED = true;
+      LEFT_DRIVE_MOTOR_IS_INVERTED = false;
 
-        // Turn PIDs
-        LEFT_TURN_PID_P = 1.0;
-        LEFT_TURN_PID_I = 0.0;
-        LEFT_TURN_PID_D = 450.0;
-        LEFT_TURN_PID_F = 0.0;
+      RIGHT_LEAD_CHANNEL = 4;
+      RIGHT_FOLLOWER_1_CHANNEL = 5;
+      RIGHT_FOLLOWER_2_CHANNEL = 6;
+      RIGHT_DRIVE_SENSOR_IS_INVERTED = true;
+      RIGHT_DRIVE_MOTOR_IS_INVERTED = true;
 
-        RIGHT_TURN_PID_P = 1.0;
-        RIGHT_TURN_PID_I = 0.0;
-        RIGHT_TURN_PID_D = 450.0;
-        RIGHT_TURN_PID_F = 0.0;
+      RIGHT_GRABBER_SOLENOID_EXISTS = true;
+      LEFT_GRABBER_SOLENOID_EXISTS = true;
 
-        HAS_ELEVATOR = true;
-        ELEVATOR_MOTOR_CHANNEL = 7;
+      CLIMB_MOTOR_CONTROLLER_LEADER = 11;
+      CLIMB_MOTOR_CONTROLLER_FOLLOWER1 = 12;
 
-        ELEVATOR_BOTTOM_TICKS = 630;
-        ELEVATOR_TOP_TICKS = 195;
+      // Linear PIDS
+      LEFT_DRIVE_PID_P = 2.025;
+      LEFT_DRIVE_PID_I = 0.0;
+      LEFT_DRIVE_PID_D = 400.0;
+      LEFT_DRIVE_PID_F = 0.0;
 
-        ELEVATOR_FLOOR = 0.040;
-        ELEVATOR_SWITCH = 0.300;
-        ELEVATOR_LOW_SCALE = 0.693;
+      RIGHT_DRIVE_PID_P = 2.025;
+      RIGHT_DRIVE_PID_I = 0.0;
+      RIGHT_DRIVE_PID_D = 512.0;
+      RIGHT_DRIVE_PID_F = 0.0;
 
-        HAS_GRABBER = true;
-        GRABBER_INVERT = true;
-        GRABBER_L_CHANNEL = 0; 
-        GRABBER_R_CHANNEL = 1;
-        OPTICAL_CHANNEL = 5;
+      // Turn PIDs
+      LEFT_TURN_PID_P = 1.75;
+      LEFT_TURN_PID_I = 0.0;
+      LEFT_TURN_PID_D = 180.0;
+      LEFT_TURN_PID_F = 0.0;
 
-        HAS_CAMERA = false;
+      RIGHT_TURN_PID_P = 1.75;
+      RIGHT_TURN_PID_I = 0.0;
+      RIGHT_TURN_PID_D = 180.0;
+      RIGHT_TURN_PID_F = 0.0;
 
-        useSimulator = false;
-        USE_FAKE_GAME_DATA = false;
+      HAS_CLIMBER = true;
+      CLIMB_MOTOR_CONTROLLER_LEADER = 11;
+      CLIMB_MOTOR_CONTROLLER_FOLLOWER1 = 12;
 
-        HAS_LEFT_RAMP = false;
-        RAMP_LEFT_FORWARD_CHANNEL = 1;
-        RAMP_LEFT_REVERSE_CHANNEL = 4;
+      useSimulator = false;
+      USE_FAKE_GAME_DATA = true;
 
-        HAS_RIGHT_RAMP = false;
-        RAMP_RIGHT_FORWARD_CHANNEL = 2;
-        RAMP_RIGHT_REVERSE_CHANNEL = 5;
+      HAS_GRABBER = true;
+      GRABBER_INVERT = false;
+      HAS_CAMERA = false;
 
-        RAMP_RELEASE_FORWARD_CHANNEL = 0;
-        RAMP_RELEASE_REVERSE_CHANNEL = 3;
+      GRABBER_L_CHANNEL = 0;
+      GRABBER_R_CHANNEL = 1;
+      OPTICAL_CHANNEL = 5;
 
-        AUTONOMOUS_DRIVE_TIMEOUT_MS = 200;
-        AUTONOMOUS_TURN_TIMEOUT_MS = 300;
-        break;
+      // TODO Assign values to the game piece variables, and make more as appropriate
+      HAS_ELEVATOR = true;
+      ELEVATOR_MOTOR_CHANNEL = 7;
 
-      case Board:
-      default:
-        HAS_WHEELS = false;
-        DRIVEMOTOR_NUM = 0;
-        WHEEL_ENCODER_CODES_PER_REVOLUTION = 1024;
+      ELEVATOR_BOTTOM_TICKS = 881;
+      ELEVATOR_TOP_TICKS = 557;
 
-        FORWARD_PANIC_ANGLE = 45;
-        BACKWARD_PANIC_ANGLE = -45;
+      ELEVATOR_FLOOR = 0.042;
+      ELEVATOR_SWITCH = 0.315;
+      ELEVATOR_LOW_SCALE = 0.729;
 
-        HAS_GRABBER = false;
-        GRABBER_L_CHANNEL = 0;
-        GRABBER_R_CHANNEL = 1;
-        OPTICAL_CHANNEL = 5;
+      HAS_LEFT_RAMP = false;
+      RAMP_LEFT_FORWARD_CHANNEL = 1;
+      RAMP_LEFT_REVERSE_CHANNEL = 4;
 
-        HAS_CLIMBER = true;
-        CLIMB_MOTOR_CONTROLLER_LEADER = 1;
+      HAS_RIGHT_RAMP = false;
+      RAMP_RIGHT_FORWARD_CHANNEL = 2;
+      RAMP_RIGHT_REVERSE_CHANNEL = 5;
 
-        HAS_ELEVATOR = false;
-        //ELEVATOR_MOTOR_CHANNEL = 1;
-        HAS_CAMERA = false;
-        HAS_LEFT_RAMP = false;
-        HAS_RIGHT_RAMP = false;
+      RAMP_RELEASE_FORWARD_CHANNEL = 0;
+      RAMP_RELEASE_REVERSE_CHANNEL = 3;
 
-        
-        isDriveMotorInverted = new boolean[] { false, true, false, true };
-        break;
+      AUTONOMOUS_DRIVE_TIMEOUT_MS = 500;
+      AUTONOMOUS_TURN_TIMEOUT_MS = 1000;
+
+      CLIMBER_RAMP_TIME = 0.5;
+      break;
+
+    case Competition_2:
+      HAS_WHEELS = true;
+      DRIVEMOTOR_NUM = 4;
+      WHEEL_CIRCUMFERENCE = 18.00; // 19.74;
+      WHEEL_ENCODER_CODES_PER_REVOLUTION = 1024;
+      useSpeedControllers = true;
+
+      FORWARD_PANIC_ANGLE = 60;
+      BACKWARD_PANIC_ANGLE = -60;
+
+      LEFT_LEAD_CHANNEL = 1;
+      LEFT_FOLLOWER_1_CHANNEL = 2;
+      LEFT_FOLLOWER_2_CHANNEL = 3;
+      LEFT_DRIVE_SENSOR_IS_INVERTED = true;
+      LEFT_DRIVE_MOTOR_IS_INVERTED = false;
+
+      RIGHT_LEAD_CHANNEL = 4;
+      RIGHT_FOLLOWER_1_CHANNEL = 5;
+      RIGHT_FOLLOWER_2_CHANNEL = 6;
+      RIGHT_DRIVE_SENSOR_IS_INVERTED = true;
+      RIGHT_DRIVE_MOTOR_IS_INVERTED = true;
+
+      HAS_CLIMBER = false;
+      CLIMB_MOTOR_CONTROLLER_LEADER = 11;
+      CLIMB_MOTOR_CONTROLLER_FOLLOWER1 = 12;
+      CLIMBER_RAMP_TIME = 0.5;
+
+      RIGHT_GRABBER_SOLENOID_EXISTS = true;
+      LEFT_GRABBER_SOLENOID_EXISTS = true;
+
+      // Linear PIDS
+      LEFT_DRIVE_PID_P = 1.0;
+      LEFT_DRIVE_PID_I = 0.0;
+      LEFT_DRIVE_PID_D = 450.0;
+      LEFT_DRIVE_PID_F = 0.0;
+
+      RIGHT_DRIVE_PID_P = 1.0;
+      RIGHT_DRIVE_PID_I = 0.0;
+      RIGHT_DRIVE_PID_D = 450.0;
+      RIGHT_DRIVE_PID_F = 0.0;
+
+      // Turn PIDs
+      LEFT_TURN_PID_P = 1.0;
+      LEFT_TURN_PID_I = 0.0;
+      LEFT_TURN_PID_D = 450.0;
+      LEFT_TURN_PID_F = 0.0;
+
+      RIGHT_TURN_PID_P = 1.0;
+      RIGHT_TURN_PID_I = 0.0;
+      RIGHT_TURN_PID_D = 450.0;
+      RIGHT_TURN_PID_F = 0.0;
+
+      HAS_ELEVATOR = true;
+      ELEVATOR_MOTOR_CHANNEL = 7;
+
+      ELEVATOR_BOTTOM_TICKS = 630;
+      ELEVATOR_TOP_TICKS = 195;
+
+      ELEVATOR_FLOOR = 0.040;
+      ELEVATOR_SWITCH = 0.300;
+      ELEVATOR_LOW_SCALE = 0.693;
+
+      HAS_GRABBER = true;
+      GRABBER_INVERT = true;
+      GRABBER_L_CHANNEL = 0;
+      GRABBER_R_CHANNEL = 1;
+      OPTICAL_CHANNEL = 5;
+
+      HAS_CAMERA = false;
+
+      useSimulator = false;
+      USE_FAKE_GAME_DATA = false;
+
+      HAS_LEFT_RAMP = false;
+      RAMP_LEFT_FORWARD_CHANNEL = 1;
+      RAMP_LEFT_REVERSE_CHANNEL = 4;
+
+      HAS_RIGHT_RAMP = false;
+      RAMP_RIGHT_FORWARD_CHANNEL = 2;
+      RAMP_RIGHT_REVERSE_CHANNEL = 5;
+
+      RAMP_RELEASE_FORWARD_CHANNEL = 0;
+      RAMP_RELEASE_REVERSE_CHANNEL = 3;
+
+      AUTONOMOUS_DRIVE_TIMEOUT_MS = 200;
+      AUTONOMOUS_TURN_TIMEOUT_MS = 300;
+      break;
+
+    case Board:
+    default:
+      HAS_WHEELS = false;
+      DRIVEMOTOR_NUM = 0;
+      WHEEL_ENCODER_CODES_PER_REVOLUTION = 1024;
+
+      FORWARD_PANIC_ANGLE = 45;
+      BACKWARD_PANIC_ANGLE = -45;
+
+      HAS_GRABBER = false;
+      GRABBER_L_CHANNEL = 0;
+      GRABBER_R_CHANNEL = 1;
+      OPTICAL_CHANNEL = 5;
+
+      HAS_CLIMBER = true;
+      CLIMB_MOTOR_CONTROLLER_LEADER = 1;
+
+      HAS_ELEVATOR = false;
+      // ELEVATOR_MOTOR_CHANNEL = 1;
+      HAS_CAMERA = false;
+      HAS_LEFT_RAMP = false;
+      HAS_RIGHT_RAMP = false;
+
+      isDriveMotorInverted = new boolean[] { false, true, false, true };
+      break;
     }
-    //These calculations can be made after the robot-specific constants are set. 
+    // These calculations can be made after the robot-specific constants are set.
     POSITION_ALLOWED_ERROR = ALLOWED_ERROR_INCHES / RobotMap.WHEEL_CIRCUMFERENCE;
-    POSITION_ALLOWABLE_CLOSED_LOOP_ERROR 
-        = (int) (POSITION_ALLOWED_ERROR * 1024 * 0.95);// This is in encoder ticks
+    POSITION_ALLOWABLE_CLOSED_LOOP_ERROR = (int) (POSITION_ALLOWED_ERROR * 1024 * 0.95);// This is in encoder ticks
   }
 
   /**
@@ -290,9 +377,9 @@ public class RobotMap {
   static void setSimulator() {
 
     RobotMap.useSimulator = true;
-    RobotMap.USE_FAKE_GAME_DATA = true;  
+    RobotMap.USE_FAKE_GAME_DATA = true;
 
-    //Linear PIDS
+    // Linear PIDS
     LEFT_DRIVE_PID_P = 0.00033;
     LEFT_DRIVE_PID_I = 0.0;
     LEFT_DRIVE_PID_D = 0.0;
@@ -312,7 +399,7 @@ public class RobotMap {
     RIGHT_TURN_PID_P = 0.00051;
     RIGHT_TURN_PID_I = 0.0;
     RIGHT_TURN_PID_D = 0.0;
-    RIGHT_TURN_PID_F = 0.0;  
+    RIGHT_TURN_PID_F = 0.0;
   }
 
   /**
@@ -396,8 +483,8 @@ public class RobotMap {
   public static double CamToCenterLengthInches;
 
   /**
-   * Used to ensure that all Talon SRX outputs are relative to a fixed value.
-   * If the available voltage is below the nominal and a value about that is
+   * Used to ensure that all Talon SRX outputs are relative to a fixed value. If
+   * the available voltage is below the nominal and a value about that is
    * requested, the output will be 100%.
    */
   public static final double NOMINAL_BATTERY_VOLTAGE = 12.0;
@@ -467,12 +554,12 @@ public class RobotMap {
 
   public static int RAMP_RELEASE_FORWARD_CHANNEL;
   public static int RAMP_RELEASE_REVERSE_CHANNEL;
-  
+
   public static boolean RIGHT_GRABBER_SOLENOID_EXISTS;
   public static boolean LEFT_GRABBER_SOLENOID_EXISTS;
-  public static int RIGHT_GRABBER_FORWARD_CHANNEL = 1; //redo
+  public static int RIGHT_GRABBER_FORWARD_CHANNEL = 1; // redo
   public static int RIGHT_GRABBER_REVERSE_CHANNEL = 0;
   public static int LEFT_GRABBER_FORWARD_CHANNEL = 2;
   public static int LEFT_GRABBER_REVERSE_CHANNEL = 3;
-  
+
 }

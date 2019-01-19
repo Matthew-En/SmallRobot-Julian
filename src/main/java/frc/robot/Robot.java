@@ -70,19 +70,19 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
 
     // Delete all Network Table keys; relevant ones will be added when they are set
     table = NetworkTableInstance.getDefault();
-    dashboard  = table.getTable("SmartDashboard");
-    //table.deleteAllEntries(); // Uncomment to clear table once.
-    
+    dashboard = table.getTable("SmartDashboard");
+    // table.deleteAllEntries(); // Uncomment to clear table once.
+
     // Initialize RobotMap
-    RobotMap.init(RobotId.Competition_2);
+    RobotMap.init(RobotId.SmallRobot);
 
     // Used after init, should be set only by the Simulator GUI
     // this ensures that the simulator is off otherwise.
@@ -101,13 +101,12 @@ public class Robot extends TimedRobot {
     grabber = Grabber.getInstance();
     matchConfig = MatchConfiguration.getInstance();
 
-
     if (RobotMap.HAS_CAMERA) {
       vision = VisionProcessing.getInstance();
       vision.startVision();
-      //made usb camera and captures video
+      // made usb camera and captures video
       UsbCamera cam = CameraServer.getInstance().startAutomaticCapture();
-      //set resolution and frames per second to match driverstation
+      // set resolution and frames per second to match driverstation
       cam.setResolution(320, 240);
       cam.setFPS(15);
     }
@@ -117,12 +116,13 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
@@ -141,9 +141,9 @@ public class Robot extends TimedRobot {
    * This function is called periodically during autonomous.
    */
 
-   /**
-    * Need to implement cancelling for autonomous
-    */
+  /**
+   * Need to implement cancelling for autonomous
+   */
   @Override
   public void autonomousPeriodic() {
     grabber.periodic();
@@ -155,7 +155,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     LOGGER.info("Init Teleop");
     autonomous = Actions.doNothing();
-    //drive.configPeakOutput(1.0);
+    // drive.configPeakOutput(1.0);
     driverstation.readInputs();
     grabber.reset();
   }
@@ -171,7 +171,7 @@ public class Robot extends TimedRobot {
     grabber.grab(driverstation.getGrabThrottle());
     elevator.move(driverstation.getElevatorSpeed());
 
-    //grabber open and close
+    // grabber open and close
     if (driverstation.getGrabberOpen()) {
       LOGGER.info("Grabber Open");
       grabber.open();
@@ -193,7 +193,7 @@ public class Robot extends TimedRobot {
       LOGGER.info("Lifting to high scale height");
       elevator.moveToHeight(Elevator.Stops.highScale);
     }
-    
+
     // Ramps state machines protect against conflicts
     if (driverstation.getClimbUp()) {
       LOGGER.debug("Climb Up");
@@ -214,23 +214,23 @@ public class Robot extends TimedRobot {
     }
 
     switch (driverstation.getDriveMode()) {
-    
-      case ArcadeDrive:
-        drive.arcadeDrive(speed, turn, true);
-        //drive.logTelemetry(speed, turn);
-        break;
 
-      case CurvatureDrive:
-        drive.curvatureDrive(speed, turn, true);
-        break;
+    case ArcadeDrive:
+      drive.arcadeDrive(speed, turn, true);
+      // drive.logTelemetry(speed, turn);
+      break;
 
-      case TankDrive:
-        double leftTank = driverstation.getDriveJoystick().getLeftStickY();
-        double rightTank = driverstation.getDriveJoystick().getRightStickY();
-        drive.tankDrive(leftTank, rightTank, true);
-        break;
+    case CurvatureDrive:
+      drive.curvatureDrive(speed, turn, true);
+      break;
 
-      default:
+    case TankDrive:
+      double leftTank = driverstation.getDriveJoystick().getLeftStickY();
+      double rightTank = driverstation.getDriveJoystick().getRightStickY();
+      drive.tankDrive(leftTank, rightTank, true);
+      break;
+
+    default:
     }
   }
 
@@ -239,19 +239,19 @@ public class Robot extends TimedRobot {
     LOGGER.info("Init Test");
     tuneSlot = Integer.parseInt(SmartDashboard.getString("DB/String 5", "0"));
     switch (tuneSlot) {
-      case 0:
-      case 1:
-        LOGGER.info("Tuning PID Slot {}", tuneSlot);
-        drive.readPidsFromSmartDashboard(tuneSlot);
-        tuningValue = Double.parseDouble(SmartDashboard.getString("DB/String 0", "0.0"));
-        LOGGER.info("Tuning Value: " + tuningValue);
-        break;
-      case 2:
-        LOGGER.info("Testing motor control.");
-        testMotorControl = new TestMotorControl();
-        break;
-      default:
-        LOGGER.info("Invalid Tune Mode: {}", tuneSlot);
+    case 0:
+    case 1:
+      LOGGER.info("Tuning PID Slot {}", tuneSlot);
+      drive.readPidsFromSmartDashboard(tuneSlot);
+      tuningValue = Double.parseDouble(SmartDashboard.getString("DB/String 0", "0.0"));
+      LOGGER.info("Tuning Value: " + tuningValue);
+      break;
+    case 2:
+      LOGGER.info("Testing motor control.");
+      testMotorControl = new TestMotorControl();
+      break;
+    default:
+      LOGGER.info("Invalid Tune Mode: {}", tuneSlot);
     }
     drive.zero();
   }
@@ -262,46 +262,36 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     switch (tuneSlot) {
-      case 0: // Drive PID SLot
-        drive.tuneForward(tuningValue, RobotMap.PID_SLOT_DRIVE);
-        LOGGER.debug("Distance {} feet", drive.getLeftDistance());
-        break;
-      case 1: // Turn PID Slot
-        drive.tuneTurn(tuningValue, RobotMap.PID_SLOT_TURN);
-        LOGGER.debug("Turn {} degrees",Math.toDegrees(drive.getLeftDistance()));
-        break;
-      case 2: // New motor control
-        testMotorControl.periodic();
-        break;
-      default:
+    case 0: // Drive PID SLot
+      drive.tuneForward(tuningValue, RobotMap.PID_SLOT_DRIVE);
+      LOGGER.debug("Distance {} feet", drive.getLeftDistance());
+      break;
+    case 1: // Turn PID Slot
+      drive.tuneTurn(tuningValue, RobotMap.PID_SLOT_TURN);
+      LOGGER.debug("Turn {} degrees", Math.toDegrees(drive.getLeftDistance()));
+      break;
+    case 2: // New motor control
+      testMotorControl.periodic();
+      break;
+    default:
     }
   }
 
   @Override
   public void disabledInit() {
     LOGGER.info("Init Disabled");
-    //drive.logClosedLoopErrors();
+    // drive.logClosedLoopErrors();
   }
 
   @Override
   public void disabledPeriodic() {
     LOGGER.trace("Disabled Periodic");
-    String[] autoList = {
-      "None", 
-      "Just_Go_Forward", 
-      "Left_Switch_Only", 
-      "Left_Basic", 
-      "Left_Advanced", 
-      "Left_Our_Side_Only",
-      "Center", 
-      "Center_Advanced", 
-      "Right_Switch_Only", 
-      "Right_Basic", 
-      "Right_Advanced", 
-      "Right_Our_Side_Only"
-    };
+    String[] autoList = { "None", "Just_Go_Forward", "Left_Switch_Only", "Left_Basic", "Left_Advanced",
+        "Left_Our_Side_Only", "Center", "Center_Advanced", "Right_Switch_Only", "Right_Basic", "Right_Advanced",
+        "Right_Our_Side_Only" };
     dashboard.getEntry("Auto List").setStringArray(autoList);
-    //LOGGER.info("Selected Auto Mode: " + SmartDashboard.getString("Auto Selector", "None"));
+    // LOGGER.info("Selected Auto Mode: " + SmartDashboard.getString("Auto
+    // Selector", "None"));
   }
 
 }
